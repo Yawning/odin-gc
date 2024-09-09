@@ -20,7 +20,7 @@ main :: proc() {
     // - You *can* use `free` and `delete`, if you really want to, but
     //   why bother?  Embrace the lazy.
     // - Do NOT use:
-    //   - `core:dynlib`
+    //   - `core:dynlib.load_library`, use `gc.load_library` instead.
     //   - `core:thread`
     // - Avoid:
     //   - `base:runtime/heap_allocator`
@@ -32,7 +32,7 @@ main :: proc() {
 
 - It is a stop-the-world mark-and-sweep GC.
 - `GC_init` is used instead of `GC_INIT`.
-- `core:dynlib` may appear to work, but it likely is broken.
+- `gc.load_library` must be used instead of `core:dynlib/load_library`
 - `core:thread` may appear to work, but it likely is broken.
 
 #### Future Improvements
