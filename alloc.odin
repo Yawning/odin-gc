@@ -155,6 +155,13 @@ get_prof_stats :: proc(stats: ^Prof_Stats) {
 	GC_get_prof_stats(stats, size_of(stats^))
 }
 
+/*
+Stops the world and starts a garbage collection cycle immediately.
+*/
+collect_now :: proc() {
+	GC_gcollect()
+}
+
 @(private)
 allocator_proc :: proc(
 	allocator_data: rawptr,

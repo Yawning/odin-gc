@@ -11,6 +11,7 @@ import "base:runtime"
 import "base:intrinsics"
 import "core:math/big"
 
+import "core:strings"
 import gc "../"
 
 /*
@@ -2599,6 +2600,25 @@ bit_field_type :: proc() {
 	//     * Enum
 }
 
+gc_loop :: proc() {
+	fmt.println("\n# Garbage collector")
+
+	gc.collect_now()
+
+	stats: gc.Prof_Stats
+	gc.get_prof_stats(&stats)
+	fmt.printf("\nBefore Loop: GC stats: %+v\n", stats)
+
+	ss: string
+	for _ in 0 ..< 10000 {
+		s := strings.clone("I'm only happy when it rains...")
+		ss = strings.join([]string{ss, s}, " ")
+	}
+
+	gc.get_prof_stats(&stats)
+	fmt.printf("\nAfter Loop: GC stats: %+v\n", stats)
+}
+
 main :: proc() {
 	/*
 		For More Odin Examples - https://github.com/odin-lang/examples
@@ -2650,7 +2670,11 @@ main :: proc() {
 		arbitrary_precision_mathematics()
 		matrix_type()
 		bit_field_type()
+
+		gc_loop()
 	}
+
+	gc.collect_now()
 
 	stats: gc.Prof_Stats
 	gc.get_prof_stats(&stats)
